@@ -23,6 +23,7 @@ class NetworkManager {
         
         // Returns if URL is invalid
         guard let url = URL(string: endpoint) else {
+            print("err")
             completed(.failure(.invalidUrl))
             return
         }
@@ -32,6 +33,8 @@ class NetworkManager {
             
             // Returns if error exists
             if let _ = error {
+                print("err")
+
                 completed(.failure(.unableToComplete))
                 return
             }
@@ -39,6 +42,8 @@ class NetworkManager {
             // Returns if response is not successful status code
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 completed(.failure(.unableToComplete))
+                print("err")
+
                 return
             }
             

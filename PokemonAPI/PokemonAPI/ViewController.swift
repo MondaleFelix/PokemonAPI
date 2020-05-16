@@ -13,9 +13,11 @@ class ViewController: UIViewController {
     var tableView = UITableView()
     var pokemons : [Pokemon] = []
     var page = 1
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         configureTableView()
         getPokemon()
     }
@@ -45,11 +47,16 @@ class ViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = 100
         tableView.register(PokemonCell.self, forCellReuseIdentifier: "PokemonCell")
-        
         tableView.delegate = self
         tableView.dataSource = self
         
-        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+        ])
         
     }
 }
@@ -65,11 +72,17 @@ extension ViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell", for: indexPath) as! PokemonCell
-        let pokemon = pokemons[indexPath.row].name
-        cell.nameLabel.text = pokemon
+        let pokemon = pokemons[indexPath.row]
+        cell.nameLabel.text = pokemon.name
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == tableView.numberOfSections - 1 && indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            
+            self.getPokemon()
+        }
+    }
     
 }
 

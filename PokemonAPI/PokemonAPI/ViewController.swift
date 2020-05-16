@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     var tableView = UITableView()
     var pokemons : [Pokemon] = []
-    var page = 1
+    var offset = 0
 
     
     override func viewDidLoad() {
@@ -24,13 +24,13 @@ class ViewController: UIViewController {
 
     
     func getPokemon(){
-        NetworkManager.shared.getPokemons(page: page) { [weak self] (result) in
+        NetworkManager.shared.getPokemons(page: offset) { [weak self] (result) in
             guard let self = self else { return }
             
             switch result {
             case.success(let pokemons):
                 self.pokemons.append(contentsOf: pokemons)
-                self.page += 1
+                self.offset += 10
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }

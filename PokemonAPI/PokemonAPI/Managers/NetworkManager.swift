@@ -19,7 +19,7 @@ class NetworkManager {
     
     func getPokemons(page:Int, completed: @escaping(Result<[Pokemon], ErrorMessage>) -> Void){
         
-        let endpoint = baseURL + "&page=\(page)"
+        let endpoint = baseURL + "&offset=\(page)"
         
         // Returns if URL is invalid
         guard let url = URL(string: endpoint) else {
